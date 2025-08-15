@@ -15,3 +15,5 @@ embedded in titles. A secondary LLM (DeepSeek-V3) validated the results,
 showing strong alignment with human evaluation. 
 
 Findings highlight the potential of LLMs for reliable web information extraction.
+
+The "Experiment" file folder includes the screenshot & HTML files along with the respetive code written in Python used in the experiment.
