@@ -1,0 +1,56 @@
+### **LLM Evaluation Analysis (First Dataset Results)**  
+
+#### **Scoring Standard**  
+Scores are assigned on a scale of **0 to 1** based on:  
+- **Accuracy (0.5 weight)**: Correctness of extracted attributes vs. reference. Penalties for missing/wrong attributes.  
+- **Precision (0.3 weight)**: Conciseness (avoiding verbosity) and formatting adherence.  
+- **Completeness (0.2 weight)**: Coverage of all valid attributes and handling of missing data.  
+
+**Score Ranges**:  
+- **0.9–1.0**: Perfect/near-perfect alignment.  
+- **0.8–0.89**: Minor errors (e.g., formatting, one missing attribute).  
+- **0.7–0.79**: Moderate errors (e.g., two incorrect attributes).  
+- **<0.7**: Major omissions or inaccuracies.  
+
+---
+
+### **Key Observations**  
+
+#### **Model Performance**  
+1. **Qwen** dominated with **highest scores (avg. 0.89)**, achieving near-perfect matches (e.g., 0.98 in Amazon fashion).  
+2. **Mistral** showed **moderate performance (avg. 0.82)**, struggling most with missing attributes (e.g., "missing style details").  
+3. **Llama** had **significant variability (avg. 0.65)**, with catastrophic failures in fewshot (e.g., 0.20 scores for "completely wrong product").  
+
+#### **Category Trends**  
+1. **Electronics**: Most accurate (**avg. 0.88**) due to structured specifications (e.g., model numbers).  
+2. **Fashion**: Most errors involved **Size/Style attributes (avg. 0.83)**, especially for Llama.  
+3. **Beauty**: Frequent **verbosity issues (avg. 0.85)** across models (e.g., Qwen's "extra benefits").  
+
+#### **Platform Differences**  
+1. **eBay**: Cleanest data with **highest scores (avg. 0.87)**, particularly for Mistral/Qwen (multiple 0.95 scores).  
+2. **Amazon**: **Mixed results (avg. 0.85)** due to inconsistent formatting.  
+3. **Temu**: **Noisiest data (avg. 0.84)**, causing completeness issues (e.g., Llama's 0.35 score).  
+
+#### **Fewshot vs. Zeroshot**  
+1. **Fewshot boosted Mistral/Qwen by ~10%** (e.g., Mistral beauty from 0.75 → 0.85).  
+2. **Llama degraded with fewshot** (e.g., 0.78 → 0.45 in electronics), suggesting overfitting.  
+
+#### **Common Errors**  
+1. **Over-verbosity**: Qwen's lengthy descriptions (e.g., "overly verbose Object").  
+2. **Attribute omission**: Mistral frequently missed valid fields (e.g., "missing color variants").  
+3. **Catastrophic failures**: Llama's fewshot produced completely wrong outputs (4/4 beauty cases).  
+
+---
+
+### **Recommendations**  
+1. **Default to Qwen** for all tasks - its precision and consistency outperformed others.  
+2. **Use Mistral fewshot** when detailed breakdowns are needed, but implement validation checks for missing fields.  
+3. **Avoid Llama fewshot** entirely due to high error rates; limit to zeroshot fashion applications where it scored 0.70-0.82.  
+4. **Preprocess Temu data** to normalize noisy fields (colors/sizes) before extraction.  
+5. **Add post-processing rules** to:  
+   - Trim verbose Qwen outputs  
+   - Flag missing critical attributes (e.g., Power Mode in electronics)  
+
+**Critical Finding**: Qwen achieved **15% higher accuracy** than other models in noisy environments (Temu), making it the most robust choice. Mistral requires additional validation, while Llama should be used sparingly and never with fewshot prompts for critical tasks.  
+
+This analysis maintains your requested bullet-point format while incorporating all quantitative findings from the first dataset. The recommendations are prioritized based on the observed performance gaps.

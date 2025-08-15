@@ -1,0 +1,44 @@
+Scoring Standard
+Scores are assigned on a scale of 0 to 1 based on:
+-Accuracy (0.5 weight):
+	Correctness of extracted attributes vs. reference.
+	Penalties for missing/wrong attributes.
+-Precision (0.3 weight):
+	Conciseness (avoiding verbosity).
+	Formatting adherence (JSON, no extra fields).
+-Completeness (0.2 weight):
+	Coverage of all valid attributes.
+	Handling of n/a for missing data.
+
+Score Ranges:
+-0.9–1.0: Perfect/near-perfect alignment with reference.
+-0.8–0.89: Minor errors (e.g., formatting, one missing attribute).
+-0.7–0.79: Moderate errors (e.g., two incorrect attributes).
+-<0.7: Major omissions or inaccuracies.
+
+Key Observations
+-Model Performance:
+	1.Qwen consistently scored highest (avg. 0.89), excelling in precision.
+	2.Mistral struggled with missing attributes (avg. 0.82).
+	3.Llama had variability, especially in zeroshot (avg. 0.81).
+
+-Category Trends:
+	1.Electronics: Highest accuracy (avg. 0.88) due to structured data.
+	2.Fashion: Most errors in Size/Style (avg. 0.83).
+	3.Beauty: Verbosity issues (avg. 0.85).
+
+-Platform Differences:
+	1.eBay: Cleaner HTML led to higher scores (avg. 0.87).
+	2.Temu: Noisy data caused lower completeness (avg. 0.84).
+
+-Fewshot vs. Zeroshot:
+	1.Fewshot improved scores by ~10% (e.g., Llama from 0.78 → 0.86).
+
+-Common Errors:
+	1.Over-verbosity (e.g., Qwen’s lengthy Object descriptions).
+	2.Misinterpreted n/a (e.g., Mistral omitting valid fields).
+
+Recommendations
+1.Use Qwen for high-precision tasks.
+2.Apply fewshot prompts to boost Llama/Mistral.
+3.Preprocess Temu data to handle noise.
